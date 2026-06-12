@@ -5,8 +5,16 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from './DashboardScreen';
 import questionsData from '../data/questions.json'; 
 import { useTranslation } from 'react-i18next';
+import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
+import { AdMobKeys } from '../config/keys';
 
 type ExamScreenRouteProp = RouteProp<RootStackParamList, 'Exam'>;
+
+// InterstitialAd'yi bileşen dışında bir kez oluşturmak performansı artırabilir 
+// ancak navigasyonla tekrar geri gelince yeni load yapmak gerek.
+const interstitial = InterstitialAd.createForAdRequest(AdMobKeys.interstitialAdUnitId, {
+  requestNonPersonalizedAdsOnly: true,
+});
 
 export default function ExamScreen() {
   const route = useRoute<ExamScreenRouteProp>();
@@ -19,7 +27,8 @@ export default function ExamScreen() {
     addWrongQuestion, 
     removeWrongQuestion,
     incrementTotal,
-    incrementCorrect 
+    incrementCorrect,
+    isVip
   } = useStore();
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -27,20 +36,38 @@ export default function ExamScreen() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [localCorrectCount, setLocalCorrectCount] = useState(0);
+  const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
     if (mode === 'wrong') {
       setQuestions(wrongQuestions);
     } else if (mode === 'deneme') {
-      // Rastgele 50 soru almak için basit bir karıştırma yöntemi
       const shuffled = [...questionsData].sort(() => 0.5 - Math.random());
       setQuestions(shuffled.slice(0, 50) as Question[]);
     } else {
-      // random10
       const shuffled = [...questionsData].sort(() => 0.5 - Math.random());
       setQuestions(shuffled.slice(0, 10) as Question[]);
     }
   }, [mode]);
+
+  useEffect(() => {
+    if (isVip) return;
+
+    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+      setAdLoaded(true);
+    });
+
+    // Eğer reklam yüklenirse ve kapanırsa ne yapacağımızı ayarlamamız lazım ama
+    // navigation olayını burada vermek zor olabilir (event listener her seferinde eklenmemeli).
+    // O yüzden en iyisi onAdClosed olayını ayrıca yönetmek veya 
+    // kapandıktan sonra kendimizin navigation yapması.
+
+    interstitial.load();
+
+    return () => {
+      unsubscribeLoaded();
+    };
+  }, [isVip]);
 
   const handleAnswer = (option: string) => {
     if (isAnswered) return;
@@ -64,15 +91,36 @@ export default function ExamScreen() {
     }
   };
 
+  const finishExam = () => {
+    // Sınav bitirme alert'i göster
+    Alert.alert(t('exam_completed_title'), t('exam_completed_desc', { total: questions.length, correct: localCorrectCount }), [
+      { 
+        text: t('exam_ok'), 
+        onPress: () => {
+          if (!isVip && adLoaded) {
+            // Interstitial göster (Kapanınca geri gidebilmesi için eventleri ayarlayabiliriz ama
+            // basit bir yaklaşım olarak goBack ad'dan önce tetiklenirse ad boşa çıkabilir, 
+            // Ad kapanma olayı için geçici event ekliyoruz:
+            const unsubscribe = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+              unsubscribe();
+              navigation.goBack();
+            });
+            interstitial.show();
+          } else {
+            navigation.goBack();
+          }
+        } 
+      }
+    ]);
+  }
+
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setSelectedOption(null);
       setIsAnswered(false);
     } else {
-      Alert.alert(t('exam_completed_title'), t('exam_completed_desc', { total: questions.length, correct: localCorrectCount }), [
-        { text: t('exam_ok'), onPress: () => navigation.goBack() }
-      ]);
+      finishExam();
     }
   };
 

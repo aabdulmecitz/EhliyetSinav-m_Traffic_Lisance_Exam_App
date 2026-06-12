@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import trafficSignsData from '../data/traffic_signs.json';
+import AdBanner from '../components/AdBanner';
 
 const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/ummugulsunn/ehliyet-rehberim/main/';
 
@@ -66,7 +67,9 @@ export default function SignsScreen() {
         keyExtractor={item => item.id}
         renderItem={renderSignItem}
         contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
       />
+      <AdBanner />
     </View>
   );
 }

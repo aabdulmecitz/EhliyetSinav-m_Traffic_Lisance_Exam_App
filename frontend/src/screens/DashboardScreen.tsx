@@ -4,6 +4,7 @@ import { useStore } from '../store/useStore';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
+import AdBanner from '../components/AdBanner';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -55,6 +56,7 @@ export default function DashboardScreen() {
           </Text>
         </TouchableOpacity>
       </View>
+      <AdBanner />
     </View>
   );
 }

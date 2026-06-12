@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { RootStackParamList } from './DashboardScreen'; 
+import AdBanner from '../components/AdBanner';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'MainTabs'>;
 
@@ -27,18 +28,21 @@ export default function ExamsListScreen() {
   ];
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {examModes.map(mode => (
-        <TouchableOpacity 
-          key={mode.id}
-          style={[styles.card, { borderLeftColor: mode.color }]}
-          onPress={() => navigation.navigate('Exam', { mode: mode.id as any })}
-        >
-          <Text style={[styles.cardTitle, { color: mode.color }]}>{mode.title}</Text>
-          <Text style={styles.cardDesc}>{mode.description}</Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        {examModes.map(mode => (
+          <TouchableOpacity 
+            key={mode.id}
+            style={[styles.card, { borderLeftColor: mode.color }]}
+            onPress={() => navigation.navigate('Exam', { mode: mode.id as any })}
+          >
+            <Text style={[styles.cardTitle, { color: mode.color }]}>{mode.title}</Text>
+            <Text style={styles.cardDesc}>{mode.description}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      <AdBanner />
+    </View>
   );
 }
 

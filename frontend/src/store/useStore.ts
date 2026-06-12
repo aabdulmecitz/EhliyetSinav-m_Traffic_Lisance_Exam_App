@@ -18,10 +18,13 @@ interface AppState {
   totalQuestionsAnswered: number;
   correctAnswers: number;
   wrongQuestions: Question[];
+  isVip: boolean;
   addWrongQuestion: (question: Question) => void;
   removeWrongQuestion: (questionId: string) => void;
   incrementTotal: () => void;
   incrementCorrect: () => void;
+  setVip: (status: boolean) => void;
+  resetStats: () => void;
 }
 
 export const useStore = create<AppState>()(
@@ -30,6 +33,7 @@ export const useStore = create<AppState>()(
       totalQuestionsAnswered: 0,
       correctAnswers: 0,
       wrongQuestions: [],
+      isVip: false,
       
       addWrongQuestion: (question) => set((state) => {
         // Zaten ekliyse tekrar ekleme
@@ -48,7 +52,11 @@ export const useStore = create<AppState>()(
       
       incrementCorrect: () => set((state) => ({
         correctAnswers: state.correctAnswers + 1
-      }))
+      })),
+
+      setVip: (status: boolean) => set(() => ({ isVip: status })),
+
+      resetStats: () => set({ totalQuestionsAnswered: 0, correctAnswers: 0, wrongQuestions: [] }),
     }),
     {
       name: 'ehliyet-storage',
