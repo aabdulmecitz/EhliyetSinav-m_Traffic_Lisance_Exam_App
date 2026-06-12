@@ -1,0 +1,31 @@
+{
+  "translation": {
+    "dashboard_title": "Welcome!",
+    "dashboard_progress_title": "Your Progress",
+    "dashboard_success_format": "{{rate}}% Success ({{correct}} correct / {{total}} questions)",
+    "dashboard_start_exam": "Solve 10 Random Questions",
+    "dashboard_wrong_questions": "My Mistakes ({{count}})",
+    "tabs_home": "Home",
+    "tabs_exams": "Exams",
+    "tabs_signs": "Signs",
+    "tabs_profile": "Profile",
+    "exams_title": "Exams",
+    "exams_mock_title": "Mock Exam",
+    "exams_mock_desc": "Experience a real exam with 50 random questions.",
+    "exams_wrong_title": "My Mistakes",
+    "exams_wrong_desc": "Re-solve the questions you previously answered incorrectly.",
+    "signs_search_placeholder": "Search Signs...",
+    "exam_header_title": "Solving Questions",
+    "exam_question_counter": "Question: {{current}} / {{total}}",
+    "exam_no_questions": "No questions found to display.",
+    "exam_correct_answer": "Correct!",
+    "exam_wrong_answer": "Wrong!",
+    "exam_next_question": "Next Question",
+    "exam_finish": "Finish Exam",
+    "exam_completed_title": "Exam Completed!",
+    "exam_completed_desc": "Total Solved: {{total}}, Correct: {{correct}}",
+    "exam_ok": "OK",
+    "profile_title": "Profile",
+    "profile_desc": "Coming soon: Settings, Statistics, etc."
+  }
+}

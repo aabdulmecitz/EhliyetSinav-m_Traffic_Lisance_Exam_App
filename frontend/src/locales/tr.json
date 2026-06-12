@@ -1,0 +1,31 @@
+{
+  "translation": {
+    "dashboard_title": "Hoş Geldiniz!",
+    "dashboard_progress_title": "Genel Başarı Durumunuz",
+    "dashboard_success_format": "%{{rate}} Başarı ({{correct}} doğru / {{total}} soru)",
+    "dashboard_start_exam": "Rastgele 10 Soru Çöz",
+    "dashboard_wrong_questions": "Yanlış Yaptığım Sorular ({{count}})",
+    "tabs_home": "Anasayfa",
+    "tabs_exams": "Sınavlar",
+    "tabs_signs": "Levhalar",
+    "tabs_profile": "Profil",
+    "exams_title": "Sınavlar",
+    "exams_mock_title": "Deneme Sınavı",
+    "exams_mock_desc": "Rastgele 50 soru ile gerçek sınav deneyimi yaşayın.",
+    "exams_wrong_title": "Yanlış Yaptıklarım",
+    "exams_wrong_desc": "Daha önce yanlış yaptığınız soruları tekrar çözün.",
+    "signs_search_placeholder": "Levha Ara...",
+    "exam_header_title": "Soru Çözümü",
+    "exam_question_counter": "Soru: {{current}} / {{total}}",
+    "exam_no_questions": "Gösterilecek soru bulunamadı.",
+    "exam_correct_answer": "Doğru!",
+    "exam_wrong_answer": "Yanlış!",
+    "exam_next_question": "Sıradaki Soru",
+    "exam_finish": "Sınavı Bitir",
+    "exam_completed_title": "Sınav Bitti!",
+    "exam_completed_desc": "Toplam Çözülen: {{total}}, Doğru: {{correct}}",
+    "exam_ok": "Tamam",
+    "profile_title": "Profil",
+    "profile_desc": "Çok yakında: Ayarlar, İstatistikler vb."
+  }
+}
